@@ -13,10 +13,10 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
 
 
-    <script src="components/histogram.js"></script>
-    <script src="components/histogramRange.js"></script>
+    <script src="components/barchart.js"></script>
+    <script src="components/barchartRange.js"></script>
     <script src="components/linegraph.js"></script>
-    <script src="components/mouseover.js"></script>
+
     <title>population in korea</title>
     <style>
         body {
@@ -227,14 +227,12 @@
             </div>
         </div>
         <div class="text-center">
-            <svg width="400" height="400" id="histogramRange">
+            <svg width="400" height="400" id="barchartRange">
             </svg>
-            <svg width="400" height="400" id="histogram">
+            <svg width="400" height="400" id="barchart">
             </svg>
             <svg width="400" height="400" id="linegraph">
-            </svg>        
-            <svg width="400" height="400" id="data-table">
-            </svg>                  
+            </svg>                 
         </div>
     </main>
 
@@ -242,7 +240,7 @@
         let data, histogram, dataTable, histogramRange;
         let linegraph;
 
-        function updateHistogram() {
+        function updateBarchart() {
             let xVar = d3.selectAll("input[type=checkbox][name=x-encoding]:checked")
             .nodes()
             .map(cb => cb.value);
@@ -258,7 +256,7 @@
 
             linegraph.update(data, xVar, yVar);
         }    
-        function updateHistogramRange() {
+        function updateBarchartRange() {
             let xVar = d3.selectAll("input[type=checkbox][name=x-encoding]:checked")
             .nodes()
             .map(cb => cb.value);
@@ -268,10 +266,6 @@
             histogramRange.update(data,xVar, yVar, zVar);
             
         }        
-
-        function updateDataTable() {
-            dataTable.update(data, data.columns)
-        }
 
         Promise.all([
             d3.csv("https://raw.githubusercontent.com/jinwoongkim7876/irene/main/2012_population.csv"),    
@@ -306,27 +300,23 @@
                 data = csvData;
 
                 d3.selectAll("input[type=checkbox][name=x-encoding]")
-                .on("change", function(){updateHistogram();updatelinegraph();updateHistogramRange();})
+                .on("change", function(){updateBarchart();updatelinegraph();updateBarchartRange();})
                 d3.selectAll("input[type=radio][name=z-encoding]")
-                .on("change", function(){updateHistogramRange();updateHistogram();})
+                .on("change", function(){updateBarchartRange();updateBarchart();})
                 d3.selectAll("input[type=radio][name=y-encoding]")
-                .on("change", function(){updateHistogramRange();updatelinegraph();})
+                .on("change", function(){updateBarchartRange();updatelinegraph();})
 
                 linegraph = new Linegraph("#linegraph");
-                histogram = new Histogram("#histogram");
-                histogramRange = new HistogramRange("#histogramRange");
+                histogram = new Barchart("#barchart");
+                histogramRange = new BarchartRange("#barchartRange");
                                
                 histogramRange.initialize();
                 histogram.initialize();
                 linegraph.initialize();
 
-                updateHistogram();
-                updateHistogramRange();
+                updateBarchart();
+                updateBarchartRange();
                 updatelinegraph();
-
-                dataTable = new DataTable("#data-table");
-
-                updateDataTable();
             })
     </script>
 

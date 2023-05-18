@@ -38,10 +38,9 @@ class Linegraph {
           });
           result.push(sum);
         });
-        console.log(result);
+
         const categories = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023];
 
-        console.log(categories)
         this.xScale.domain(categories).range([0, this.width]).padding(1);
         this.yScale.domain([d3.min(result), d3.max(result)]).range([this.height, 0]);
 
